@@ -1,19 +1,48 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useInRouterContext,
+} from "react-router-dom";
 
 const AppPageTest = () => <div>AppTest remotes</div>;
 
 /** Used in Host (Without BrowserRouter) */
-const FederatedInner = () => (
-  <Routes>
-    <Route index element={<Navigate to="test" replace />} />
-    <Route path="test" element={<AppPageTest />} />
-    {/* fallback wildcard */}
-    <Route path="*" element={<Navigate to=".." relative="route" replace />} />
-  </Routes>
-);
+const FederatedApp = () => {
+  const hasRouter = useInRouterContext();
+  if (!hasRouter) {
+    // <<< Error message when running federated mode not in the host
+    return (
+      <div
+        style={{
+          fontFamily: "system-ui, sans-serif",
+          padding: 16,
+          border: "1px dashed #888",
+          borderRadius: 12,
+        }}
+      >
+        <strong>Warning: The App Can't be used</strong>
+        <strong>Remotes App Solo ready to use in the host App</strong>
+        <div style={{ marginTop: 6, fontSize: 14 }}>
+          (This Component error because it should call with <code>&lt;Router&gt;</code>.)
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Routes>
+      <Route index element={<Navigate to="test" replace />} />
+      <Route path="test" element={<AppPageTest />} />
+      {/* fallback wildcard */}
+      <Route path="*" element={<Navigate to=".." relative="route" replace />} />
+    </Routes>
+  );
+};
 
 /** Dev standalone (With BrowserRouter) */
-const DevInner = () => (
+const DevApp = () => (
   <Routes>
     <Route path="/" element={<Navigate to="/test" replace />} />
     <Route path="/test" element={<AppPageTest />} />
@@ -25,12 +54,12 @@ const App = () => {
   if (import.meta.env.DEV) {
     return (
       <BrowserRouter>
-        <DevInner />
+        <DevApp />
       </BrowserRouter>
     );
   }
   // federated mode: Host provided BrowserRouter
-  return <FederatedInner />;
+  return <FederatedApp />;
 };
 
 export default App;
