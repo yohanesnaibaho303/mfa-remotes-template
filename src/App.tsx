@@ -6,7 +6,7 @@ import {
   useInRouterContext,
 } from "react-router-dom";
 
-const AppPageTest = () => <div>AppTest remotes</div>;
+const AppPageTest = () => <div className="bg-blue-500">AppTest remotes</div>;
 
 /** Used in Host (Without BrowserRouter) */
 const FederatedApp = () => {
@@ -25,7 +25,7 @@ const FederatedApp = () => {
         <strong>Warning: The App Can't be used</strong>
         <strong>Remotes App Solo ready to use in the host App</strong>
         <div style={{ marginTop: 6, fontSize: 14 }}>
-          (This Component error because it should call with <code>&lt;Router&gt;</code>.)
+          (This Remote error because it should call with <code>&lt;BrowserRouter Parent(Host)&gt;</code>.)
         </div>
       </div>
     );

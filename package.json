@@ -4,15 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3100 --strictPort",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "vite preview --port 3100 --strictPort",
     "dev:remote": "vite build --watch",
-    "dev:mf": "concurrently \"bun run dev:remote\" \"bun run preview\""
+    "serve:remote": "vite preview --port 3100",
+    "dev:mf": "concurrently \"bun run dev:remote\" \"bun run serve:remote\""
   },
   "dependencies": {
-    "modern-normalize": "^3.0.1",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-router-dom": "7.8.2"
